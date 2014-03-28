@@ -9,7 +9,12 @@
 REMOTE_HOME=$1
 INSTALL_JAVA=$2
 JMETER_VERSION=$3
+GROOVY_VER=2.2.2
 
+function install_groovy() {
+    wget -q -O groovy.zip http://dl.bintray.com/groovy/maven/groovy-binary-$GROOVY_VER.zip
+    unzip $REMOTE_HOME/groovy.zip $REMOTE_HOME/$JMETER_VERSION/lib/ext/    
+}
 
 function install_jmeter_plugins() {
     wget -q -O $REMOTE_HOME/JMeterPlugins.jar https://s3.amazonaws.com/jmeter-ec2/JMeterPlugins.jar
@@ -20,7 +25,6 @@ function install_mysql_driver() {
     wget -q -O $REMOTE_HOME/mysql-connector-java-5.1.16-bin.jar https://s3.amazonaws.com/jmeter-ec2/mysql-connector-java-5.1.16-bin.jar
     mv $REMOTE_HOME/mysql-connector-java-5.1.16-bin.jar $REMOTE_HOME/$JMETER_VERSION/lib/
 }
-
 
 cd $REMOTE_HOME
 
@@ -56,6 +60,7 @@ jakarta-jmeter-2.5.1)
     install_jmeter_plugins
     # install mysql jdbc driver
 	install_mysql_driver
+    install_groovy
     ;;
 
 apache-jmeter-*)
@@ -66,6 +71,7 @@ apache-jmeter-*)
     install_jmeter_plugins
     # install mysql jdbc driver
 	install_mysql_driver
+    install_groovy
     ;;
     
 *)
